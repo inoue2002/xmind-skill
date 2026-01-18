@@ -5,83 +5,106 @@ description: XMindマインドマップファイル(.xmind)をMarkdown形式に�
 
 # XMind
 
-XMindファイルをMarkdownに変換するスキル。XMind LegacyとXMind Zen両方の形式に対応。
+XMindファイルの読み込み・作成・編集を行うスキル。
+
+## スクリプト
+
+| スクリプト | 用途 |
+|-----------|------|
+| `xmind_to_markdown.py` | XMind → Markdown変換（読み込み専用） |
+| `xmind_editor.py` | XMindファイルの作成・編集 |
 
 ## 依存関係
 
 ```bash
-pip install xmindparser
+pip install xmindparser  # xmind_to_markdown.py用
 ```
 
-## 使い方
+`xmind_editor.py`は標準ライブラリのみで動作。
 
-### 基本的な変換
+---
+
+## xmind_to_markdown.py（読み込み）
+
+XMindファイルをMarkdownに変換。XMind LegacyとXMind Zen両対応。
 
 ```bash
+# 基本
 python scripts/xmind_to_markdown.py input.xmind
-```
 
-### ファイルに出力
-
-```bash
+# ファイル出力
 python scripts/xmind_to_markdown.py input.xmind output.md
-```
 
-### 出力形式の選択
-
-**ヘッダー形式（デフォルト）**：Markdownの見出しを使用
-```bash
-python scripts/xmind_to_markdown.py input.xmind --style headers
-```
-
-出力例：
-```markdown
-# Root Topic
-## Child 1
-### Grandchild
-## Child 2
-```
-
-**箇条書き形式**：インデント付き箇条書きのみ使用
-```bash
+# 箇条書き形式
 python scripts/xmind_to_markdown.py input.xmind --style bullets
 ```
 
-出力例：
-```markdown
-- Root Topic
-  - Child 1
-    - Grandchild
-  - Child 2
-```
+---
 
-### 特定のシートのみ変換
+## xmind_editor.py（作成・編集）
 
-複数シートがある場合、シートインデックスを指定：
+XMindファイルの作成と編集。依存関係なし。
+
+### 新規作成
+
 ```bash
-python scripts/xmind_to_markdown.py input.xmind --sheet 0
+python scripts/xmind_editor.py create output.xmind --root "中心トピック"
 ```
 
-## Pythonから使用
+### 構造表示
 
-```python
-from scripts.xmind_to_markdown import xmind_to_markdown
-
-# 文字列として取得
-markdown = xmind_to_markdown("input.xmind")
-print(markdown)
-
-# ファイルに保存
-xmind_to_markdown("input.xmind", "output.md")
-
-# 箇条書き形式で取得
-markdown = xmind_to_markdown("input.xmind", format_style="bullets")
+```bash
+python scripts/xmind_editor.py show file.xmind
 ```
 
-## 対応機能
+### トピック追加
 
-- XMind Legacy形式（.xmind、XML内部構造）
-- XMind Zen形式（.xmind、JSON内部構造）
-- ノート（notes）の変換
-- ラベル（labels）の変換
-- 複数シートの処理
+```bash
+python scripts/xmind_editor.py add file.xmind --parent "親トピック" --topic "新しいトピック"
+```
+
+### トピック名変更
+
+```bash
+python scripts/xmind_editor.py edit file.xmind --target "現在の名前" --title "新しい名前"
+```
+
+### トピック削除
+
+```bash
+python scripts/xmind_editor.py delete file.xmind --target "削除するトピック"
+```
+
+---
+
+## 使用例
+
+論文の構成をマインドマップで作成：
+
+```bash
+# 作成
+python scripts/xmind_editor.py create paper.xmind --root "研究論文"
+
+# 章を追加
+python scripts/xmind_editor.py add paper.xmind --parent "研究論文" --topic "1. はじめに"
+python scripts/xmind_editor.py add paper.xmind --parent "研究論文" --topic "2. 関連研究"
+python scripts/xmind_editor.py add paper.xmind --parent "研究論文" --topic "3. 提案手法"
+
+# サブトピック追加
+python scripts/xmind_editor.py add paper.xmind --parent "1. はじめに" --topic "背景"
+python scripts/xmind_editor.py add paper.xmind --parent "1. はじめに" --topic "問題設定"
+
+# 確認
+python scripts/xmind_editor.py show paper.xmind
+```
+
+出力：
+```
+=== Sheet 1 ===
+研究論文
+  - 1. はじめに
+    - 背景
+    - 問題設定
+  - 2. 関連研究
+  - 3. 提案手法
+```
