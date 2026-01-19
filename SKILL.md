@@ -5,106 +5,87 @@ description: XMindマインドマップファイル(.xmind)をMarkdown形式に�
 
 # XMind
 
-XMindファイルの読み込み・作成・編集を行うスキル。
-
-## スクリプト
-
-| スクリプト | 用途 |
-|-----------|------|
-| `xmind_to_markdown.py` | XMind → Markdown変換（読み込み専用） |
-| `xmind_editor.py` | XMindファイルの作成・編集 |
+XMindファイルの読み込み・作成・編集を行うスキル。公式SDK（xmind）を使用。
 
 ## 依存関係
 
 ```bash
-pip install xmindparser  # xmind_to_markdown.py用
+npm install
 ```
 
-`xmind_editor.py`は標準ライブラリのみで動作。
-
----
-
-## xmind_to_markdown.py（読み込み）
-
-XMindファイルをMarkdownに変換。XMind LegacyとXMind Zen両対応。
-
-```bash
-# 基本
-python scripts/xmind_to_markdown.py input.xmind
-
-# ファイル出力
-python scripts/xmind_to_markdown.py input.xmind output.md
-
-# 箇条書き形式
-python scripts/xmind_to_markdown.py input.xmind --style bullets
-```
-
----
-
-## xmind_editor.py（作成・編集）
-
-XMindファイルの作成と編集。依存関係なし。
+## コマンド
 
 ### 新規作成
 
 ```bash
-python scripts/xmind_editor.py create output.xmind --root "中心トピック"
+node scripts/xmind-cli.js create output.xmind --root "中心トピック"
 ```
 
 ### 構造表示
 
 ```bash
-python scripts/xmind_editor.py show file.xmind
+node scripts/xmind-cli.js show file.xmind
+```
+
+出力例：
+```
+=== Sheet 1 ===
+研究論文
+  - 1. はじめに
+    > 研究の背景と目的
+    - 背景
+  - 2. 関連研究
+```
+
+### Markdown変換
+
+```bash
+# ヘッダー形式（デフォルト）
+node scripts/xmind-cli.js markdown file.xmind
+
+# 箇条書き形式
+node scripts/xmind-cli.js markdown file.xmind --style bullets
 ```
 
 ### トピック追加
 
 ```bash
-python scripts/xmind_editor.py add file.xmind --parent "親トピック" --topic "新しいトピック"
-```
+# 基本
+node scripts/xmind-cli.js add file.xmind --parent "親トピック" --topic "新トピック"
 
-### トピック名変更
-
-```bash
-python scripts/xmind_editor.py edit file.xmind --target "現在の名前" --title "新しい名前"
-```
-
-### トピック削除
-
-```bash
-python scripts/xmind_editor.py delete file.xmind --target "削除するトピック"
+# ノート付き
+node scripts/xmind-cli.js add file.xmind --parent "親" --topic "子" --note "メモ内容"
 ```
 
 ---
 
 ## 使用例
 
-論文の構成をマインドマップで作成：
+論文構成のマインドマップを作成：
 
 ```bash
 # 作成
-python scripts/xmind_editor.py create paper.xmind --root "研究論文"
+node scripts/xmind-cli.js create paper.xmind --root "研究論文"
 
 # 章を追加
-python scripts/xmind_editor.py add paper.xmind --parent "研究論文" --topic "1. はじめに"
-python scripts/xmind_editor.py add paper.xmind --parent "研究論文" --topic "2. 関連研究"
-python scripts/xmind_editor.py add paper.xmind --parent "研究論文" --topic "3. 提案手法"
+node scripts/xmind-cli.js add paper.xmind --parent "研究論文" --topic "1. はじめに" --note "背景と目的"
+node scripts/xmind-cli.js add paper.xmind --parent "研究論文" --topic "2. 関連研究"
+node scripts/xmind-cli.js add paper.xmind --parent "研究論文" --topic "3. 提案手法"
 
-# サブトピック追加
-python scripts/xmind_editor.py add paper.xmind --parent "1. はじめに" --topic "背景"
-python scripts/xmind_editor.py add paper.xmind --parent "1. はじめに" --topic "問題設定"
+# サブトピック
+node scripts/xmind-cli.js add paper.xmind --parent "1. はじめに" --topic "背景"
+node scripts/xmind-cli.js add paper.xmind --parent "1. はじめに" --topic "問題設定"
 
 # 確認
-python scripts/xmind_editor.py show paper.xmind
+node scripts/xmind-cli.js show paper.xmind
+
+# Markdown出力
+node scripts/xmind-cli.js markdown paper.xmind
 ```
 
-出力：
-```
-=== Sheet 1 ===
-研究論文
-  - 1. はじめに
-    - 背景
-    - 問題設定
-  - 2. 関連研究
-  - 3. 提案手法
-```
+## 対応機能
+
+- XMind Zen形式の読み書き
+- ノート（notes）の読み書き
+- 階層構造の作成・編集
+- Markdown変換（headers/bullets形式）

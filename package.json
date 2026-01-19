@@ -1,0 +1,25 @@
+{
+  "name": "xmind-skill",
+  "version": "1.0.0",
+  "description": "XMindマインドマップファイル(.xmind)の読み込み・作成・編集を行うスキル for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).",
+  "main": "index.js",
+  "scripts": {
+    "test": "echo \"Error: no test specified\" && exit 1"
+  },
+  "repository": {
+    "type": "git",
+    "url": "git+https://github.com/inoue2002/xmind-skill.git"
+  },
+  "keywords": [],
+  "author": "",
+  "license": "ISC",
+  "type": "commonjs",
+  "bugs": {
+    "url": "https://github.com/inoue2002/xmind-skill/issues"
+  },
+  "homepage": "https://github.com/inoue2002/xmind-skill#readme",
+  "dependencies": {
+    "adm-zip": "^0.5.16",
+    "xmind": "^2.2.33"
+  }
+}
