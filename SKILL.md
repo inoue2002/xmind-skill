@@ -10,11 +10,22 @@ XMind 8ファイルの読み込み・作成・編集を行うスキル。公式S
 > **対応バージョン**: XMind 8 (XML形式)
 > XMind Zen以降（JSON形式）には対応していません。
 
-## 依存関係
+## セットアップ（初回のみ）
+
+スクリプト実行前に依存関係をインストール：
 
 ```bash
-pip install xmind
+# スキルディレクトリで実行
+pip install -r requirements.txt
 ```
+
+または直接：
+
+```bash
+python3 -m pip install xmind
+```
+
+> **Note**: macOSでHomebrewのPythonを使用している場合は `python3 -m pip install --user xmind` を使用
 
 ## コマンド
 

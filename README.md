@@ -43,10 +43,17 @@ npx add-skill inoue2002/xmind-skill
 npx add-skill -g inoue2002/xmind-skill
 ```
 
-### 依存関係
+### 依存関係（初回のみ）
 
 ```bash
-pip install xmind
+# スキルディレクトリで実行
+pip install -r requirements.txt
+
+# または直接
+python3 -m pip install xmind
+
+# macOS (Homebrew Python) の場合
+python3 -m pip install --user xmind
 ```
 
 ## 使い方
