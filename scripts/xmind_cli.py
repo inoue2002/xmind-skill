@@ -148,6 +148,21 @@ def topic_to_markdown(topic, level=1, style="headers"):
             except:
                 pass
 
+    # Add comments if exists
+    comments = topic.getComments()
+    if comments:
+        if isinstance(comments, str):
+            lines.append(f"> **Comment:** {comments}")
+            lines.append("")
+        else:
+            for comment in comments:
+                try:
+                    content = comment.getContent() if hasattr(comment, 'getContent') else str(comment)
+                    lines.append(f"> **Comment:** {content}")
+                    lines.append("")
+                except:
+                    pass
+
     for subtopic in topic.getSubTopics() or []:
         lines.append(topic_to_markdown(subtopic, level + 1, style))
 
