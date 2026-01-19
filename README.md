@@ -2,7 +2,12 @@
 
 XMindマインドマップファイル(.xmind)の読み込み・作成・編集を行うスキル for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
 
-公式SDK（[xmind](https://github.com/xmindltd/xmind-sdk-js)）を使用。
+公式SDK（[xmind-sdk-python](https://github.com/xmindltd/xmind-sdk-python)）を使用。
+
+> **⚠️ 対応バージョン: XMind 8**
+>
+> このスキルはXMind 8（XML形式）専用です。
+> XMind Zen以降（2018年〜、JSON形式）には対応していません。
 
 ## 機能
 
@@ -11,7 +16,18 @@ XMindマインドマップファイル(.xmind)の読み込み・作成・編集�
 | `create` | 新規XMindファイル作成 |
 | `show` | 構造をツリー表示 |
 | `markdown` | Markdown形式に変換 |
-| `add` | トピック追加（ノート対応） |
+| `add` | トピック追加（ノート・コメント対応） |
+| `edit` | トピック編集 |
+
+## 対応機能
+
+| 機能 | 読み込み | 書き込み |
+|------|:-------:|:-------:|
+| トピック | ✅ | ✅ |
+| ノート (notes) | ✅ | ✅ |
+| コメント (comments) | ✅ | ✅ |
+| マーカー (markers) | ✅ | ✅ |
+| ラベル (labels) | ✅ | ✅ |
 
 ## インストール
 
@@ -30,7 +46,7 @@ npx add-skill -g inoue2002/xmind-skill
 ### 依存関係
 
 ```bash
-npm install
+pip install xmind
 ```
 
 ## 使い方
@@ -49,16 +65,20 @@ Claude Code で以下のような依頼をすると、このスキルが自動�
 
 ```bash
 # 新規作成
-node scripts/xmind-cli.js create output.xmind --root "中心トピック"
+python scripts/xmind_cli.py create output.xmind --root "中心トピック"
 
 # 構造表示
-node scripts/xmind-cli.js show file.xmind
+python scripts/xmind_cli.py show file.xmind
 
 # Markdown変換
-node scripts/xmind-cli.js markdown file.xmind
+python scripts/xmind_cli.py markdown file.xmind
 
-# トピック追加（ノート付き）
-node scripts/xmind-cli.js add file.xmind --parent "親" --topic "子" --note "メモ"
+# トピック追加（ノート・コメント付き）
+python scripts/xmind_cli.py add file.xmind --parent "親" --topic "子" \
+  --note "メモ" --comment "コメント"
+
+# トピック編集
+python scripts/xmind_cli.py edit file.xmind --target "対象" --title "新タイトル"
 ```
 
 ## 出力例
@@ -69,7 +89,8 @@ node scripts/xmind-cli.js add file.xmind --parent "親" --topic "子" --note "�
 === Sheet 1 ===
 研究論文
   - 1. はじめに
-    > 研究の背景と目的
+    > 背景と目的
+    // 要確認
     - 背景
     - 問題設定
   - 2. 関連研究
@@ -83,7 +104,7 @@ node scripts/xmind-cli.js add file.xmind --parent "親" --topic "子" --note "�
 
 ## 1. はじめに
 
-研究の背景と目的
+背景と目的
 
 ### 背景
 
