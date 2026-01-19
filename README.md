@@ -1,6 +1,8 @@
 # XMind Skill
 
-XMindマインドマップファイル(.xmind)の読み込み・作成・編集を行うスキル for [Claude Code](https://docs.anthropic.com/en/docs/claude-code).
+XMindマインドマップファイル(.xmind)の読み込み・作成・編集を行うスキル。
+
+Claude Code、Cursor、その他add-skill対応ツールで使用可能。
 
 公式SDK（[xmind-sdk-python](https://github.com/xmindltd/xmind-sdk-python)）を使用。
 
